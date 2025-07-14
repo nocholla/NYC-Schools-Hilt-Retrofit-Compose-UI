@@ -12,7 +12,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -34,16 +33,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.nocholla.nyc.schools.hilt.retrofit.compose.ui.R
 import com.nocholla.nyc.schools.hilt.retrofit.compose.ui.domain.model.School
 import com.nocholla.nyc.schools.hilt.retrofit.compose.ui.presentation.viewmodel.SchoolViewModel
-import com.nocholla.nyc.schools.hilt.retrofit.compose.ui.utils.IntentUtil
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -53,32 +51,19 @@ fun SchoolDetailScreen(navController: NavController, dbn: String?) {
 
     Scaffold(
         topBar = {
-            Column(modifier = Modifier.fillMaxWidth()) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 8.dp),
-                    horizontalArrangement = Arrangement.End
-                ) {
+            TopAppBar(
+                title = { Text("School Details") },
+                actions = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(Icons.Filled.Close, contentDescription = "Close")
                     }
-                }
-                Image(
-                    painter = painterResource(id = R.drawable.placeholder_new_york_schools),
-                    contentDescription = "NYC Department of Education Logo",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(200.dp)
-                        .padding(top = 16.dp, bottom = 16.dp),
-                    alignment = Alignment.Center
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                    actionIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer
                 )
-                SchoolActionButtonsRow(
-                    onFeedbackClick = { /* Handle feedback click */ },
-                    onSocialClick = { /* Handle social click */ },
-                    onWebsiteClick = { school?.website?.let { IntentUtil.openUrlIntent(navController.context, it) } }
-                )
-            }
+            )
         },
         floatingActionButton = {
             FloatingActionButton(
@@ -231,6 +216,7 @@ fun SchoolActionButton(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true, name = "SchoolDetailScreen Preview")
 @Composable
 fun PreviewSchoolDetailScreen() {
@@ -265,32 +251,19 @@ fun PreviewSchoolDetailScreen() {
     PreviewMaterial3Theme {
         Scaffold(
             topBar = {
-                Column(modifier = Modifier.fillMaxWidth()) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp, vertical = 8.dp),
-                        horizontalArrangement = Arrangement.End
-                    ) {
+                TopAppBar(
+                    title = { Text("School Details") },
+                    actions = {
                         IconButton(onClick = { /* no-op for preview */ }) {
                             Icon(Icons.Filled.Close, contentDescription = "Close")
                         }
-                    }
-                    Image(
-                        painter = painterResource(id = R.drawable.placeholder_new_york_schools),
-                        contentDescription = "NYC Department of Education Logo",
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(200.dp)
-                            .padding(top = 16.dp, bottom = 16.dp),
-                        alignment = Alignment.Center
+                    },
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.primaryContainer,
+                        titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                        actionIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer
                     )
-                    SchoolActionButtonsRow(
-                        onFeedbackClick = { /* no-op for preview */ },
-                        onSocialClick = { /* no-op for preview */ },
-                        onWebsiteClick = { /* no-op for preview */ }
-                    )
-                }
+                )
             },
             floatingActionButton = {
                 FloatingActionButton(

@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -19,20 +21,30 @@ import com.nocholla.nyc.schools.hilt.retrofit.compose.ui.presentation.viewmodel.
 import androidx.compose.ui.tooling.preview.Preview
 import com.nocholla.nyc.schools.hilt.retrofit.compose.ui.domain.model.School
 import com.nocholla.nyc.schools.hilt.retrofit.compose.ui.presentation.theme.NYCSchoolsTheme
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SchoolListScreen(navController: NavController) {
     val viewModel: SchoolViewModel = hiltViewModel()
     val uiState = viewModel.uiState.collectAsState().value
 
     Box(modifier = Modifier.fillMaxSize()) {
+        TopAppBar(
+            title = { Text("School List") },
+            colors = TopAppBarDefaults.topAppBarColors(
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer
+            )
+        )
         when {
             uiState.isLoading -> CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
             uiState.error != null -> Text(
                 text = "Error: ${uiState.error}",
                 modifier = Modifier.align(Alignment.Center)
             )
-            else -> LazyColumn(modifier = Modifier.padding(8.dp)) {
+            else -> LazyColumn(modifier = Modifier.padding(top = 64.dp, start = 8.dp, end = 8.dp)) {
                 items(uiState.schools) { school ->
                     SchoolItem(school = school, navController = navController)
                 }
@@ -41,13 +53,21 @@ fun SchoolListScreen(navController: NavController) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true, name = "SchoolListScreen M3 Preview")
 @Composable
 fun SchoolListScreenPreview() {
     val mockNavController = androidx.navigation.compose.rememberNavController()
     NYCSchoolsTheme {
         Box(modifier = Modifier.fillMaxSize()) {
-            LazyColumn(modifier = Modifier.padding(8.dp)) {
+            TopAppBar(
+                title = { Text("School List") },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                )
+            )
+            LazyColumn(modifier = Modifier.padding(top = 64.dp, start = 8.dp, end = 8.dp)) {
                 items(listOf(
                     School(
                         dbn = "01M450",
