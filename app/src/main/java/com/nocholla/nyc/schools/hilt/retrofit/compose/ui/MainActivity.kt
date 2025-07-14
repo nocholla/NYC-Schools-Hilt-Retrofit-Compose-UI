@@ -11,7 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.nocholla.nyc.schools.hilt.retrofit.compose.ui.ui.theme.NYCSchoolsHiltRetrofitComposeUITheme
+import com.nocholla.nyc.schools.hilt.retrofit.compose.ui.presentation.theme.NYCSchoolsHiltRetrofitComposeUITheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

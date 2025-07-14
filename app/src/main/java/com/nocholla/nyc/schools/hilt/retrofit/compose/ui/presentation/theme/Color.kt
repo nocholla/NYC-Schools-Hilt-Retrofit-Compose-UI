@@ -1,4 +1,4 @@
-package com.nocholla.nyc.schools.hilt.retrofit.compose.ui.ui.theme
+package com.nocholla.nyc.schools.hilt.retrofit.compose.ui.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 
