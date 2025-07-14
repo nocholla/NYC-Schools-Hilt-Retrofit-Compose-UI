@@ -43,7 +43,7 @@
     <dimen name="text_appearance_digits2_textsize">20sp</dimen>
     <dimen name="text_appearance_button1_textsize">14sp</dimen>
     <dimen name="text_appearance_digits_textsize">48sp</dimen>
-    <dimen name="text_appearance_sfpro_textsize">17sp</dimen> 
+    <dimen name="text_appearance_sfpro_textsize">17sp</dimen>
 
     <!-- Buttons-->
     <dimen name="btn_next_padding_sides">20dp</dimen>
