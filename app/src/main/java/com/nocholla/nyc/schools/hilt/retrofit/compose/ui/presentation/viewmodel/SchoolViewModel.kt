@@ -42,14 +42,18 @@ class SchoolViewModel @Inject constructor(
                     _uiState.update { it.copy(schools = schools, isLoading = false) }
                 }
             }.onFailure { e ->
-                _uiState.update { it.copy(error = e.localizedMessage ?: "Unknown error", isLoading = false) }
+                _uiState.update {
+                    it.copy(error = e.localizedMessage ?: "Unknown error", isLoading = false)
+                }
             }
             getScoresUseCase().onSuccess { scoresFlow ->
                 scoresFlow.collect { scores ->
                     _uiState.update { it.copy(scores = scores, isLoading = false) }
                 }
             }.onFailure { e ->
-                _uiState.update { it.copy(error = e.localizedMessage ?: "Unknown error", isLoading = false) }
+                _uiState.update {
+                    it.copy(error = e.localizedMessage ?: "Unknown error", isLoading = false)
+                }
             }
         }
     }
