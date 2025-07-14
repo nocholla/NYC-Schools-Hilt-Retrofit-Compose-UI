@@ -1,5 +1,6 @@
 package com.nocholla.nyc.schools.hilt.retrofit.compose.ui.presentation.view.components
 
+import android.content.Intent
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -31,16 +32,24 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import androidx.navigation.compose.rememberNavController
 import com.nocholla.nyc.schools.hilt.retrofit.compose.ui.R
 import com.nocholla.nyc.schools.hilt.retrofit.compose.ui.domain.model.School
+import com.nocholla.nyc.schools.hilt.retrofit.compose.ui.utils.IntentUtil
+import androidx.navigation.NavController
+import androidx.core.net.toUri
 
 @Composable
-fun SchoolItem(school: School, onClick: () -> Unit) {
+fun SchoolItem(school: School, navController: NavController, modifier: Modifier = Modifier) {
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 8.dp, vertical = 4.dp)
-            .clickable(onClick = onClick),
+            .clickable {
+                school.dbn?.let { dbn ->
+                    navController.navigate("schoolDetail/$dbn")
+                }
+            },
         shape = RoundedCornerShape(8.dp)
     ) {
         Column(
@@ -70,7 +79,6 @@ fun SchoolItem(school: School, onClick: () -> Unit) {
                 Column(
                     modifier = Modifier.weight(1f)
                 ) {
-                    // School Name
                     Text(
                         text = school.schoolName ?: "N/A",
                         style = MaterialTheme.typography.titleLarge.copy(
@@ -84,7 +92,6 @@ fun SchoolItem(school: School, onClick: () -> Unit) {
 
                     Spacer(modifier = Modifier.height(8.dp))
 
-                    // Overview Paragraph
                     Text(
                         text = school.overviewParagraph ?: "No overview available.",
                         style = MaterialTheme.typography.bodyMedium.copy(
@@ -99,24 +106,29 @@ fun SchoolItem(school: School, onClick: () -> Unit) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Action Buttons (Email, Call, Text)
             SchoolActionButtons(
                 schoolEmail = school.schoolEmail,
-                phoneNumber = school.phoneNumber
+                phoneNumber = school.phoneNumber,
+                navController = navController
             )
         }
     }
 }
 
 @Composable
-fun SchoolActionButtons(schoolEmail: String?, phoneNumber: String?) {
+fun SchoolActionButtons(schoolEmail: String?, phoneNumber: String?, navController: NavController) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        // Email Button
-        if (!schoolEmail.isNullOrBlank()) {
-            IconButton(onClick = { /* Handle email intent */ }) {
+        schoolEmail?.takeIf { it.isNotBlank() }?.let {
+            IconButton(onClick = {
+                IntentUtil.openIntentWithUriAndAction(
+                    navController.context,
+                    "mailto:$it".toUri(),
+                    Intent.ACTION_SENDTO
+                )
+            }) {
                 Icon(
                     imageVector = Icons.Filled.Email,
                     contentDescription = "Email School",
@@ -126,9 +138,14 @@ fun SchoolActionButtons(schoolEmail: String?, phoneNumber: String?) {
             Spacer(modifier = Modifier.width(10.dp))
         }
 
-        // Call Button
-        if (!phoneNumber.isNullOrBlank()) {
-            IconButton(onClick = { /* Handle call intent */ }) {
+        phoneNumber?.takeIf { it.isNotBlank() }?.let {
+            IconButton(onClick = {
+                IntentUtil.openIntentWithUriAndAction(
+                    navController.context,
+                    "tel:$it".toUri(),
+                    Intent.ACTION_DIAL
+                )
+            }) {
                 Icon(
                     imageVector = Icons.Filled.Phone,
                     contentDescription = "Call School",
@@ -138,27 +155,28 @@ fun SchoolActionButtons(schoolEmail: String?, phoneNumber: String?) {
             Spacer(modifier = Modifier.width(10.dp))
         }
 
-        // Text Message Button (SMS)
-        if (!phoneNumber.isNullOrBlank()) {
-            IconButton(onClick = { /* Handle SMS intent */ }) {
+        phoneNumber?.takeIf { it.isNotBlank() }?.let {
+            IconButton(onClick = {
+                IntentUtil.openIntentWithUriAndAction(
+                    navController.context,
+                    "sms:$it".toUri(),
+                    Intent.ACTION_SENDTO
+                )
+            }) {
                 Icon(
                     imageVector = Icons.Filled.AccountCircle,
                     contentDescription = "Text School",
                     tint = MaterialTheme.colorScheme.primary
                 )
             }
-            // No Spacer after the last button
         }
     }
 }
 
-// --- Previews ---
-// For previews to work with Material 3, ensure you define a Material 3 Theme.
-// This is a basic one for preview purposes. Your actual app theme might be more complex.
 @Composable
 fun PreviewMaterial3Theme(content: @Composable () -> Unit) {
     MaterialTheme(
-        colorScheme = MaterialTheme.colorScheme, // Use default M3 color scheme
+        colorScheme = MaterialTheme.colorScheme,
         typography = MaterialTheme.typography,
         content = content
     )
@@ -167,6 +185,7 @@ fun PreviewMaterial3Theme(content: @Composable () -> Unit) {
 @Preview(showBackground = true, name = "SchoolItem M3 Preview")
 @Composable
 fun SchoolItemM3Preview() {
+    val mockNavController = rememberNavController()
     PreviewMaterial3Theme {
         Column {
             SchoolItem(
@@ -193,7 +212,7 @@ fun SchoolItemM3Preview() {
                     communityBoard = null, councilDistrict = null, censusTract = null, bin = null,
                     bbl = null, nta = null, borough = null
                 ),
-                onClick = {}
+                navController = mockNavController
             )
         }
     }

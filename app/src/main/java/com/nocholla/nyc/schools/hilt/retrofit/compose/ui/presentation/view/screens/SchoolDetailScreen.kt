@@ -43,6 +43,7 @@ import androidx.navigation.compose.rememberNavController
 import com.nocholla.nyc.schools.hilt.retrofit.compose.ui.R
 import com.nocholla.nyc.schools.hilt.retrofit.compose.ui.domain.model.School
 import com.nocholla.nyc.schools.hilt.retrofit.compose.ui.presentation.viewmodel.SchoolViewModel
+import com.nocholla.nyc.schools.hilt.retrofit.compose.ui.utils.IntentUtil
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -64,7 +65,7 @@ fun SchoolDetailScreen(navController: NavController, dbn: String?) {
                     }
                 }
                 Image(
-                    painter = painterResource(id = R.drawable.placeholder_new_york_schools), // Replace with your actual image resource
+                    painter = painterResource(id = R.drawable.placeholder_new_york_schools),
                     contentDescription = "NYC Department of Education Logo",
                     modifier = Modifier
                         .fillMaxWidth()
@@ -75,7 +76,7 @@ fun SchoolDetailScreen(navController: NavController, dbn: String?) {
                 SchoolActionButtonsRow(
                     onFeedbackClick = { /* Handle feedback click */ },
                     onSocialClick = { /* Handle social click */ },
-                    onWebsiteClick = { school?.website?.let { /* Handle website intent */ } }
+                    onWebsiteClick = { school?.website?.let { IntentUtil.openUrlIntent(navController.context, it) } }
                 )
             }
         },
@@ -97,66 +98,75 @@ fun SchoolDetailScreen(navController: NavController, dbn: String?) {
                 .verticalScroll(rememberScrollState())
                 .padding(horizontal = 16.dp, vertical = 8.dp)
         ) {
-            // School Name
-            Text(
-                text = "School Name",
-                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                modifier = Modifier.padding(top = 16.dp)
-            )
-            Text(
-                text = school?.schoolName ?: "School Not Found",
-                style = MaterialTheme.typography.bodyLarge,
-                modifier = Modifier.padding(top = 4.dp)
-            )
-
-            // Overview
-            Text(
-                text = "Overview",
-                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                modifier = Modifier.padding(top = 16.dp)
-            )
-            Text(
-                text = school?.overviewParagraph ?: "",
-                style = MaterialTheme.typography.bodyLarge,
-                modifier = Modifier.padding(top = 4.dp)
-            )
-
-            // Location
-            Text(
-                text = "Location",
-                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                modifier = Modifier.padding(top = 16.dp)
-            )
-            Text(
-                text = school?.location ?: "",
-                style = MaterialTheme.typography.bodyLarge,
-                modifier = Modifier.padding(top = 4.dp)
-            )
-
-            // Phone
-            Text(
-                text = "Phone",
-                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                modifier = Modifier.padding(top = 16.dp)
-            )
-            Text(
-                text = school?.phoneNumber ?: "",
-                style = MaterialTheme.typography.bodyLarge,
-                modifier = Modifier.padding(top = 4.dp)
-            )
-
-            // Email
-            Text(
-                text = "Email",
-                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                modifier = Modifier.padding(top = 16.dp)
-            )
-            Text(
-                text = school?.schoolEmail ?: "",
-                style = MaterialTheme.typography.bodyLarge,
-                modifier = Modifier.padding(top = 4.dp)
-            )
-            Spacer(modifier = Modifier.height(64.dp)) // To ensure FAB doesn't cover content
+            school?.let { s ->
+                if (s.schoolName != null) {
+                    Text(
+                        text = "School Name",
+                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                        modifier = Modifier.padding(top = 16.dp)
+                    )
+                    Text(
+                        text = s.schoolName,
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.padding(top = 4.dp)
+                    )
+                }
+                if (s.overviewParagraph != null) {
+                    Text(
+                        text = "Overview",
+                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                        modifier = Modifier.padding(top = 16.dp)
+                    )
+                    Text(
+                        text = s.overviewParagraph,
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.padding(top = 4.dp)
+                    )
+                }
+                if (s.location != null) {
+                    Text(
+                        text = "Location",
+                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                        modifier = Modifier.padding(top = 16.dp)
+                    )
+                    Text(
+                        text = s.location,
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.padding(top = 4.dp)
+                    )
+                }
+                if (s.phoneNumber != null) {
+                    Text(
+                        text = "Phone",
+                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                        modifier = Modifier.padding(top = 16.dp)
+                    )
+                    Text(
+                        text = s.phoneNumber,
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.padding(top = 4.dp)
+                    )
+                }
+                if (s.schoolEmail != null) {
+                    Text(
+                        text = "Email",
+                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                        modifier = Modifier.padding(top = 16.dp)
+                    )
+                    Text(
+                        text = s.schoolEmail,
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.padding(top = 4.dp)
+                    )
+                }
+                Spacer(modifier = Modifier.height(64.dp))
+            } ?: run {
+                Text(
+                    text = "School Not Found",
+                    style = MaterialTheme.typography.bodyLarge,
+                    modifier = Modifier.padding(top = 16.dp)
+                )
+            }
         }
     }
 }
@@ -207,7 +217,7 @@ fun SchoolActionButton(
                 .size(56.dp)
                 .clickable { onClick() },
             shape = RoundedCornerShape(8.dp),
-            color = MaterialTheme.colorScheme.primary // Use primary color for the button background
+            color = MaterialTheme.colorScheme.primary
         ) {
             Icon(
                 imageVector = icon,
@@ -224,9 +234,7 @@ fun SchoolActionButton(
 @Preview(showBackground = true, name = "SchoolDetailScreen Preview")
 @Composable
 fun PreviewSchoolDetailScreen() {
-    // Create a mock NavController for the preview
     val mockNavController = rememberNavController()
-    // Create a mock School object for the preview
     val mockSchool = School(
         dbn = "02M260",
         schoolName = "Clinton School Writers and Artists, M.S. 260",
@@ -255,9 +263,6 @@ fun PreviewSchoolDetailScreen() {
     )
 
     PreviewMaterial3Theme {
-        // Since hiltViewModel() cannot be directly used in @Preview,
-        // we'll mock the data by passing it directly or by creating a mock ViewModel if needed.
-        // For simplicity in preview, let's just display the static content as it would appear.
         Scaffold(
             topBar = {
                 Column(modifier = Modifier.fillMaxWidth()) {
@@ -305,60 +310,66 @@ fun PreviewSchoolDetailScreen() {
                     .verticalScroll(rememberScrollState())
                     .padding(horizontal = 16.dp, vertical = 8.dp)
             ) {
-                Text(
-                    text = "School Name",
-                    style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                    modifier = Modifier.padding(top = 16.dp)
-                )
-                Text(
-                    text = mockSchool.schoolName ?: "School Not Found",
-                    style = MaterialTheme.typography.bodyLarge,
-                    modifier = Modifier.padding(top = 4.dp)
-                )
-
-                Text(
-                    text = "Overview",
-                    style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                    modifier = Modifier.padding(top = 16.dp)
-                )
-                Text(
-                    text = mockSchool.overviewParagraph ?: "",
-                    style = MaterialTheme.typography.bodyLarge,
-                    modifier = Modifier.padding(top = 4.dp)
-                )
-
-                Text(
-                    text = "Location",
-                    style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                    modifier = Modifier.padding(top = 16.dp)
-                )
-                Text(
-                    text = mockSchool.location ?: "",
-                    style = MaterialTheme.typography.bodyLarge,
-                    modifier = Modifier.padding(top = 4.dp)
-                )
-
-                Text(
-                    text = "Phone",
-                    style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                    modifier = Modifier.padding(top = 16.dp)
-                )
-                Text(
-                    text = mockSchool.phoneNumber ?: "",
-                    style = MaterialTheme.typography.bodyLarge,
-                    modifier = Modifier.padding(top = 4.dp)
-                )
-
-                Text(
-                    text = "Email",
-                    style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                    modifier = Modifier.padding(top = 16.dp)
-                )
-                Text(
-                    text = mockSchool.schoolEmail ?: "",
-                    style = MaterialTheme.typography.bodyLarge,
-                    modifier = Modifier.padding(top = 4.dp)
-                )
+                if (mockSchool.schoolName != null) {
+                    Text(
+                        text = "School Name",
+                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                        modifier = Modifier.padding(top = 16.dp)
+                    )
+                    Text(
+                        text = mockSchool.schoolName,
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.padding(top = 4.dp)
+                    )
+                }
+                if (mockSchool.overviewParagraph != null) {
+                    Text(
+                        text = "Overview",
+                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                        modifier = Modifier.padding(top = 16.dp)
+                    )
+                    Text(
+                        text = mockSchool.overviewParagraph,
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.padding(top = 4.dp)
+                    )
+                }
+                if (mockSchool.location != null) {
+                    Text(
+                        text = "Location",
+                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                        modifier = Modifier.padding(top = 16.dp)
+                    )
+                    Text(
+                        text = mockSchool.location,
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.padding(top = 4.dp)
+                    )
+                }
+                if (mockSchool.phoneNumber != null) {
+                    Text(
+                        text = "Phone",
+                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                        modifier = Modifier.padding(top = 16.dp)
+                    )
+                    Text(
+                        text = mockSchool.phoneNumber,
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.padding(top = 4.dp)
+                    )
+                }
+                if (mockSchool.schoolEmail != null) {
+                    Text(
+                        text = "Email",
+                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                        modifier = Modifier.padding(top = 16.dp)
+                    )
+                    Text(
+                        text = mockSchool.schoolEmail,
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.padding(top = 4.dp)
+                    )
+                }
                 Spacer(modifier = Modifier.height(64.dp))
             }
         }
@@ -368,7 +379,7 @@ fun PreviewSchoolDetailScreen() {
 @Composable
 fun PreviewMaterial3Theme(content: @Composable () -> Unit) {
     MaterialTheme(
-        colorScheme = lightColorScheme(), // Use a default light color scheme for Material 3
+        colorScheme = lightColorScheme(),
         typography = MaterialTheme.typography,
         content = content
     )

@@ -34,9 +34,7 @@ fun SchoolListScreen(navController: NavController) {
             )
             else -> LazyColumn(modifier = Modifier.padding(8.dp)) {
                 items(uiState.schools) { school ->
-                    SchoolItem(school) {
-                        navController.navigate("schoolDetail/${school.dbn}")
-                    }
+                    SchoolItem(school = school, navController = navController)
                 }
             }
         }
@@ -75,9 +73,7 @@ fun SchoolListScreenPreview() {
                         bbl = null, nta = null, borough = null
                     )
                 )) { school ->
-                    SchoolItem(school) {
-                        mockNavController.navigate("schoolDetail/${school.dbn}")
-                    }
+                    SchoolItem(school = school, navController = mockNavController)
                 }
             }
         }
