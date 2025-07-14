@@ -135,7 +135,7 @@ fun SchoolActionButtons(schoolEmail: String?, phoneNumber: String?) {
                     tint = MaterialTheme.colorScheme.primary
                 )
             }
-            Spacer(modifier = Modifier.width(10.dp)) 
+            Spacer(modifier = Modifier.width(10.dp))
         }
 
         // Text Message Button (SMS)
