@@ -32,6 +32,18 @@ private val LightColorScheme = lightColorScheme(
     */
 )
 
+private val LightColors = lightColorScheme(
+    primary = androidx.compose.ui.graphics.Color(0xFF6200EE),
+    onPrimary = androidx.compose.ui.graphics.Color.White,
+    background = androidx.compose.ui.graphics.Color(0xFFF5F5F5)
+)
+
+private val DarkColors = darkColorScheme(
+    primary = androidx.compose.ui.graphics.Color(0xFFBB86FC),
+    onPrimary = androidx.compose.ui.graphics.Color.Black,
+    background = androidx.compose.ui.graphics.Color(0xFF121212)
+)
+
 @Composable
 fun NYCSchoolsHiltRetrofitComposeUITheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
@@ -51,6 +63,16 @@ fun NYCSchoolsHiltRetrofitComposeUITheme(
 
     MaterialTheme(
         colorScheme = colorScheme,
+        typography = Typography,
+        content = content
+    )
+}
+
+@Composable
+fun NYCSchoolsTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
+    val colors = if (darkTheme) DarkColors else LightColors
+    MaterialTheme(
+        colorScheme = colors,
         typography = Typography,
         content = content
     )
