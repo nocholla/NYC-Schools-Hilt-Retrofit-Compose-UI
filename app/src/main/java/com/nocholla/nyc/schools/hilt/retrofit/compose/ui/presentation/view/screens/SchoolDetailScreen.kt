@@ -42,6 +42,7 @@ import com.nocholla.nyc.schools.hilt.retrofit.compose.ui.domain.model.School
 import com.nocholla.nyc.schools.hilt.retrofit.compose.ui.presentation.viewmodel.SchoolViewModel
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import com.nocholla.nyc.schools.hilt.retrofit.compose.ui.utils.IntentUtil
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -143,6 +144,17 @@ fun SchoolDetailScreen(navController: NavController, dbn: String?) {
                         style = MaterialTheme.typography.bodyLarge,
                         modifier = Modifier.padding(top = 4.dp)
                     )
+                    SchoolActionButtonsRow(
+                        onFeedbackClick = { /* Handle feedback click */ },
+                        onSocialClick = { /* Handle social click */ },
+                        onWebsiteClick = { s.website?.let { IntentUtil.openUrlIntent(navController.context, it) } }
+                    )
+                } else if (s.phoneNumber != null) {
+                    SchoolActionButtonsRow(
+                        onFeedbackClick = { /* Handle feedback click */ },
+                        onSocialClick = { /* Handle social click */ },
+                        onWebsiteClick = { s.website?.let { IntentUtil.openUrlIntent(navController.context, it) } }
+                    )
                 }
                 Spacer(modifier = Modifier.height(64.dp))
             } ?: run {
@@ -166,7 +178,7 @@ fun SchoolActionButtonsRow(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 16.dp),
-        horizontalArrangement = Arrangement.SpaceEvenly,
+        horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {
         SchoolActionButton(
@@ -341,6 +353,17 @@ fun PreviewSchoolDetailScreen() {
                         text = mockSchool.schoolEmail,
                         style = MaterialTheme.typography.bodyLarge,
                         modifier = Modifier.padding(top = 4.dp)
+                    )
+                    SchoolActionButtonsRow(
+                        onFeedbackClick = { /* no-op for preview */ },
+                        onSocialClick = { /* no-op for preview */ },
+                        onWebsiteClick = { mockSchool.website?.let { IntentUtil.openUrlIntent(mockNavController.context, it) } }
+                    )
+                } else if (mockSchool.phoneNumber != null) {
+                    SchoolActionButtonsRow(
+                        onFeedbackClick = { /* no-op for preview */ },
+                        onSocialClick = { /* no-op for preview */ },
+                        onWebsiteClick = { mockSchool.website?.let { IntentUtil.openUrlIntent(mockNavController.context, it) } }
                     )
                 }
                 Spacer(modifier = Modifier.height(64.dp))
