@@ -18,20 +18,20 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material3.Icon // Material 3 Icon
-import androidx.compose.material3.IconButton // Material 3 IconButton
-import androidx.compose.material3.MaterialTheme // Material 3 MaterialTheme
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource // For loading images from drawables
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
-import com.nocholla.nyc.schools.hilt.retrofit.compose.ui.R // Assuming R file is in the root of ui module
+import com.nocholla.nyc.schools.hilt.retrofit.compose.ui.R
 import com.nocholla.nyc.schools.hilt.retrofit.compose.ui.domain.model.School
 
 @Composable
@@ -39,69 +39,65 @@ fun SchoolItem(school: School, onClick: () -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 8.dp, vertical = 4.dp) // Corresponds to margins in XML
-            .clickable(onClick = onClick), // Makes the entire card clickable
-        shape = RoundedCornerShape(8.dp), // Matches app:cardCornerRadius
-        // In Material 3, Card's default colors usually match the theme surface.
-        // For matching specific XML color, you could use containerColor if needed.
-        // containerColor = Color.White // if you want a fixed white background
+            .padding(horizontal = 8.dp, vertical = 4.dp)
+            .clickable(onClick = onClick),
+        shape = RoundedCornerShape(8.dp)
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(
-                    start = 16.dp, // global_space_medium
-                    top = 24.dp,   // global_space_large
-                    end = 16.dp,   // global_space_medium
-                    bottom = 16.dp // global_space_medium
+                    start = 16.dp,
+                    top = 24.dp,
+                    end = 16.dp,
+                    bottom = 16.dp
                 )
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.Top
             ) {
-                // School Logo (NYC Department of Education)
                 Image(
-                    painter = painterResource(id = R.drawable.placeholder_new_york_schools), // Replace with your actual drawable resource
+                    painter = painterResource(id = R.drawable.placeholder_new_york_schools),
                     contentDescription = "School Logo",
                     modifier = Modifier
-                        .size(50.dp) // width/height 50dp from XML
-                        .clip(RoundedCornerShape(4.dp)) // Small clip for sharp corners if needed
+                        .size(50.dp)
+                        .clip(RoundedCornerShape(4.dp))
                 )
 
-                Spacer(modifier = Modifier.width(16.dp)) // global_space_medium
+                Spacer(modifier = Modifier.width(16.dp))
 
                 Column(
-                    modifier = Modifier.weight(1f) // Takes remaining width
+                    modifier = Modifier.weight(1f)
                 ) {
                     // School Name
                     Text(
                         text = school.schoolName ?: "N/A",
-                        style = MaterialTheme.typography.titleLarge.copy( // Matches TextAppearance_Body2 and image font size/weight
+                        style = MaterialTheme.typography.titleLarge.copy(
                             fontSize = 18.sp,
-                            fontWeight = FontWeight.Bold // Matches image
+                            fontWeight = FontWeight.Bold
                         ),
-                        color = Color(0xFF757575), // medGray from XML
-                        maxLines = 2, // From XML's lines="1" (but image shows 2)
+                        color = Color(0xFF757575),
+                        maxLines = 2,
                         overflow = TextOverflow.Ellipsis
                     )
 
-                    Spacer(modifier = Modifier.height(8.dp)) // global_space_small
+                    Spacer(modifier = Modifier.height(8.dp))
 
                     // Overview Paragraph
                     Text(
                         text = school.overviewParagraph ?: "No overview available.",
-                        style = MaterialTheme.typography.bodyMedium.copy( // Matches TextAppearance_Caption2
+                        style = MaterialTheme.typography.bodyMedium.copy(
                             fontSize = 14.sp
                         ),
-                        color = Color(0xFF757575), // medGray from XML
-                        maxLines = 3, // From XML
+                        color = Color(0xFF757575),
+                        maxLines = 3,
                         overflow = TextOverflow.Ellipsis
                     )
                 }
             }
 
-            Spacer(modifier = Modifier.height(16.dp)) // Padding between text and buttons
+            Spacer(modifier = Modifier.height(16.dp))
 
             // Action Buttons (Email, Call, Text)
             SchoolActionButtons(
@@ -117,9 +113,6 @@ fun SchoolActionButtons(schoolEmail: String?, phoneNumber: String?) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
-        // The XML uses LinearLayout with weightSum and item weights.
-        // In Compose, we can use Spacers or arrange elements with weights.
-        // Here, we'll use a fixed size for buttons and Spacers for separation.
     ) {
         // Email Button
         if (!schoolEmail.isNullOrBlank()) {
@@ -127,10 +120,10 @@ fun SchoolActionButtons(schoolEmail: String?, phoneNumber: String?) {
                 Icon(
                     imageVector = Icons.Filled.Email,
                     contentDescription = "Email School",
-                    tint = MaterialTheme.colorScheme.primary // Example blue color
+                    tint = MaterialTheme.colorScheme.primary
                 )
             }
-            Spacer(modifier = Modifier.width(10.dp)) // Padding end
+            Spacer(modifier = Modifier.width(10.dp))
         }
 
         // Call Button
@@ -142,7 +135,7 @@ fun SchoolActionButtons(schoolEmail: String?, phoneNumber: String?) {
                     tint = MaterialTheme.colorScheme.primary
                 )
             }
-            Spacer(modifier = Modifier.width(10.dp)) // Padding end
+            Spacer(modifier = Modifier.width(10.dp)) 
         }
 
         // Text Message Button (SMS)
