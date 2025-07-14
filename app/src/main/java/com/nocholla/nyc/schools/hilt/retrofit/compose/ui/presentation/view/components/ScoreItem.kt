@@ -11,7 +11,7 @@ import com.nocholla.nyc.schools.hilt.retrofit.compose.ui.domain.model.Score
 @Composable
 fun ScoreItem(score: Score) {
     Column(modifier = Modifier.padding(8.dp)) {
-        Text(text = score.schoolName)
+        Text(text = score.schoolName ?: "")
         Text(text = "Math: ${score.satMathAvgScore}")
         Text(text = "Reading: ${score.satCriticalReadingAvgScore}")
         Text(text = "Writing: ${score.satWritingAvgScore}")

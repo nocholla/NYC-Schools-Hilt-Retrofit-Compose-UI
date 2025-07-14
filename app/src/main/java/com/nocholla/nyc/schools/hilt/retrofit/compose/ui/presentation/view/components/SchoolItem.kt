@@ -18,8 +18,8 @@ fun SchoolItem(school: School, onClick: () -> Unit) {
             .clickable(onClick = onClick)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = school.schoolName)
-            Text(text = school.overviewParagraph)
+            Text(text = school.schoolName ?: "")
+            Text(text = school.overviewParagraph ?: "")
         }
     }
 }

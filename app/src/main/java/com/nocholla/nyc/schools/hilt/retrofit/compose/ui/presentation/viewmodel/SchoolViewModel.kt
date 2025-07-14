@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import retrofit2.HttpException
 
 data class SchoolUiState(
     val schools: List<School> = emptyList(),
@@ -43,7 +44,13 @@ class SchoolViewModel @Inject constructor(
                 }
             }.onFailure { e ->
                 _uiState.update {
-                    it.copy(error = e.localizedMessage ?: "Unknown error", isLoading = false)
+                    it.copy(
+                        error = when (e) {
+                            is HttpException -> "API Error: ${e.code()} - ${e.message()}"
+                            else -> e.localizedMessage ?: "Unknown error"
+                        },
+                        isLoading = false
+                    )
                 }
             }
             getScoresUseCase().onSuccess { scoresFlow ->
@@ -52,7 +59,13 @@ class SchoolViewModel @Inject constructor(
                 }
             }.onFailure { e ->
                 _uiState.update {
-                    it.copy(error = e.localizedMessage ?: "Unknown error", isLoading = false)
+                    it.copy(
+                        error = when (e) {
+                            is HttpException -> "API Error: ${e.code()} - ${e.message()}"
+                            else -> e.localizedMessage ?: "Unknown error"
+                        },
+                        isLoading = false
+                    )
                 }
             }
         }

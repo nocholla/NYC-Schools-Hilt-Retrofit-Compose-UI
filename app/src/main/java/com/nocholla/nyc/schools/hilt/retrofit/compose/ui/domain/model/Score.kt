@@ -1,12 +1,12 @@
 package com.nocholla.nyc.schools.hilt.retrofit.compose.ui.domain.model
 
 data class Score(
-    val dbn: String,
-    val schoolName: String,
-    val numOfSatTestTakers: String,
-    val satCriticalReadingAvgScore: String,
-    val satMathAvgScore: String,
-    val satWritingAvgScore: String
+    val dbn: String?,
+    val schoolName: String?,
+    val numOfSatTestTakers: String?,
+    val satCriticalReadingAvgScore: String?,
+    val satMathAvgScore: String?,
+    val satWritingAvgScore: String?
 )
 
 /*
@@ -21,4 +21,4 @@ https://data.cityofnewyork.us/resource/f9bf-2cp4.json
       "sat_writing_avg_score":"363"
    }
 ]
- */
+*/
