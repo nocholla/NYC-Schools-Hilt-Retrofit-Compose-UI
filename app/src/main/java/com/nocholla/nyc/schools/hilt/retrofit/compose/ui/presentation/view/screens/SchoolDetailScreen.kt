@@ -44,12 +44,22 @@ import com.nocholla.nyc.schools.hilt.retrofit.compose.ui.presentation.viewmodel.
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import com.nocholla.nyc.schools.hilt.retrofit.compose.ui.utils.IntentUtil
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import android.content.Intent
+import android.net.Uri
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SchoolDetailScreen(navController: NavController, dbn: String?) {
     val viewModel: SchoolViewModel = hiltViewModel()
-    val school = viewModel.getSchoolByDbn(dbn)
+    val uiState by viewModel.uiState.collectAsState()
+    val school = dbn?.let { viewModel.getSchoolByDbn(it) } ?: uiState.schools.firstOrNull()
+
+    // Trigger data fetch for the specific DBN if not already loaded
+    if (dbn != null && school == null) {
+        viewModel.fetchSchoolDetails(dbn)
+    }
 
     Scaffold(
         topBar = {
@@ -88,8 +98,22 @@ fun SchoolDetailScreen(navController: NavController, dbn: String?) {
             school?.let { s ->
                 if (s.schoolEmail != null || s.phoneNumber != null) {
                     SchoolActionButtonsRow(
-                        onFeedbackClick = { /* Handle feedback click */ },
-                        onSocialClick = { /* Handle social click */ },
+                        onFeedbackClick = {
+                            val intent = Intent(Intent.ACTION_SENDTO).apply {
+                                data = Uri.parse("mailto:${s.schoolEmail}")
+                                putExtra(Intent.EXTRA_SUBJECT, "Parent Feedback!")
+                                putExtra(Intent.EXTRA_TEXT, "Hello, NYC City Schools")
+                            }
+                            IntentUtil.openIntentWithUriAndAction(navController.context, intent.data!!, Intent.ACTION_SENDTO)
+                        },
+                        onSocialClick = {
+                            val shareIntent = Intent(Intent.ACTION_SEND).apply {
+                                type = "text/plain"
+                                putExtra(Intent.EXTRA_SUBJECT, "Check out the NYC Schools")
+                                putExtra(Intent.EXTRA_TEXT, "NYC Schools\n\nGet more info about ${s.schoolName}\n\nThank you!")
+                            }
+                            IntentUtil.openIntentChooser(navController.context, shareIntent, "Share Via")
+                        },
                         onWebsiteClick = { s.website?.let { IntentUtil.openUrlIntent(navController.context, it) } }
                     )
                 }
@@ -149,6 +173,18 @@ fun SchoolDetailScreen(navController: NavController, dbn: String?) {
                     )
                     Text(
                         text = s.schoolEmail,
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.padding(top = 4.dp)
+                    )
+                }
+                if (s.website != null) {
+                    Text(
+                        text = "Website",
+                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                        modifier = Modifier.padding(top = 16.dp)
+                    )
+                    Text(
+                        text = s.website,
                         style = MaterialTheme.typography.bodyLarge,
                         modifier = Modifier.padding(top = 4.dp)
                     )
@@ -357,6 +393,18 @@ fun PreviewSchoolDetailScreen() {
                     )
                     Text(
                         text = mockSchool.schoolEmail,
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.padding(top = 4.dp)
+                    )
+                }
+                if (mockSchool.website != null) {
+                    Text(
+                        text = "Website",
+                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                        modifier = Modifier.padding(top = 16.dp)
+                    )
+                    Text(
+                        text = mockSchool.website,
                         style = MaterialTheme.typography.bodyLarge,
                         modifier = Modifier.padding(top = 4.dp)
                     )

@@ -11,6 +11,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import retrofit2.HttpException
@@ -38,32 +40,46 @@ class SchoolViewModel @Inject constructor(
     private fun loadData() {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, error = null) }
-            getSchoolsUseCase().onSuccess { schoolsFlow ->
-                schoolsFlow.collect { schools ->
+            try {
+                val schoolsResult = getSchoolsUseCase()
+                val scoresResult = getScoresUseCase()
+                schoolsResult.getOrThrow().collect { schools ->
                     _uiState.update { it.copy(schools = schools, isLoading = false) }
                 }
-            }.onFailure { e ->
+                scoresResult.getOrThrow().collect { scores ->
+                    _uiState.update { it.copy(scores = scores, isLoading = false) }
+                }
+            } catch (e: HttpException) {
                 _uiState.update {
                     it.copy(
-                        error = when (e) {
-                            is HttpException -> "API Error: ${e.code()} - ${e.message()}"
-                            else -> e.localizedMessage ?: "Unknown error"
-                        },
+                        error = "API Error: ${e.code()} - ${e.message()}",
+                        isLoading = false
+                    )
+                }
+            } catch (e: Exception) {
+                _uiState.update {
+                    it.copy(
+                        error = e.localizedMessage ?: "Unknown error",
                         isLoading = false
                     )
                 }
             }
-            getScoresUseCase().onSuccess { scoresFlow ->
-                scoresFlow.collect { scores ->
-                    _uiState.update { it.copy(scores = scores, isLoading = false) }
-                }
-            }.onFailure { e ->
+        }
+    }
+
+    fun fetchSchoolDetails(dbn: String) {
+        viewModelScope.launch {
+            _uiState.update { it.copy(isLoading = true, error = null) }
+            try {
+                val schoolsResult = getSchoolsUseCase()
+                val schoolsFlow = schoolsResult.getOrThrow()
+                val schools = schoolsFlow.first() // Get the first emission
+                val filteredSchools = schools.filter { it.dbn == dbn } // Filter the list
+                _uiState.update { it.copy(schools = filteredSchools.ifEmpty { schools }, isLoading = false) }
+            } catch (e: Exception) {
                 _uiState.update {
                     it.copy(
-                        error = when (e) {
-                            is HttpException -> "API Error: ${e.code()} - ${e.message()}"
-                            else -> e.localizedMessage ?: "Unknown error"
-                        },
+                        error = e.localizedMessage ?: "Failed to load school details",
                         isLoading = false
                     )
                 }

@@ -10,13 +10,19 @@ object IntentUtil {
     private const val TAG = "INTENT_UTIL"
 
     @JvmStatic
-    fun openUrlIntent(context: Context?, url: String?) {
-        url?.let { openIntentWithUriAndAction(context, Uri.parse(it), Intent.ACTION_VIEW) }
+    fun openIntentWithUriAndAction(context: Context?, uri: Uri?, action: String?) {
+        context?.safeStart(Intent(action).apply { data = uri })
     }
 
     @JvmStatic
-    fun openIntentWithUriAndAction(context: Context?, uri: Uri?, action: String?) {
-        context?.safeStart(Intent(action).apply { data = uri })
+    fun openIntentChooser(context: Context, intent: Intent, chooserTitle: String) {
+        context.startActivity(Intent.createChooser(intent, chooserTitle))
+    }
+
+    @JvmStatic
+    fun openUrlIntent(context: Context, url: String) {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        context.startActivity(intent)
     }
 
     @JvmStatic
