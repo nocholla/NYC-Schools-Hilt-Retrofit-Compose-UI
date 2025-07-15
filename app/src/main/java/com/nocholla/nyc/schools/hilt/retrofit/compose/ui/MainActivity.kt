@@ -37,10 +37,14 @@ class MainActivity : ComponentActivity() {
                     ) {
                         composable("schoolList") { SchoolListScreen(navController) }
                         composable("schoolDetail/{dbn}") { backStackEntry ->
-                            SchoolDetailScreen(navController, backStackEntry.arguments?.getString("dbn"))
+                            SchoolDetailScreen(
+                                navController, backStackEntry.arguments?.getString("dbn")
+                            )
                         }
                         composable("scores/{dbn}") { backStackEntry ->
-                            ScoresScreen(navController, backStackEntry.arguments?.getString("dbn"))
+                            ScoresScreen(
+                                navController, backStackEntry.arguments?.getString("dbn")
+                            )
                         }
                     }
                 }
