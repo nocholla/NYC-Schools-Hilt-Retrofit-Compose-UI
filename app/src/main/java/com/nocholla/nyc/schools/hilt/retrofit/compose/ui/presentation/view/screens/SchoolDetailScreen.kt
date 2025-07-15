@@ -187,13 +187,13 @@ fun SchoolActionButtonsRow(
             label = "Feedback",
             onClick = onFeedbackClick
         )
-        Spacer(modifier = Modifier.width(16.dp))
+        Spacer(modifier = Modifier.width(30.dp))
         SchoolActionButton(
             icon = Icons.Filled.Person,
             label = "Social",
             onClick = onSocialClick
         )
-        Spacer(modifier = Modifier.width(16.dp))
+        Spacer(modifier = Modifier.width(30.dp))
         SchoolActionButton(
             icon = Icons.Filled.Send,
             label = "Website",
