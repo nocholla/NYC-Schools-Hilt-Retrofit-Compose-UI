@@ -105,23 +105,35 @@ fun SchoolDetailScreen(navController: NavController, dbn: String?) {
                                 putExtra(Intent.EXTRA_SUBJECT, "Parent Feedback!")
                                 putExtra(Intent.EXTRA_TEXT, "Hello, NYC City Schools")
                             }
-                            IntentUtil.openIntentWithUriAndAction(navController.context, intent.data!!, Intent.ACTION_SENDTO)
+                            IntentUtil.openIntentWithUriAndAction(
+                                navController.context, intent.data!!, Intent.ACTION_SENDTO
+                            )
                         },
                         onSocialClick = {
                             val shareIntent = Intent(Intent.ACTION_SEND).apply {
                                 type = "text/plain"
                                 putExtra(Intent.EXTRA_SUBJECT, "Check out the NYC Schools")
-                                putExtra(Intent.EXTRA_TEXT, "NYC Schools\n\nGet more info about ${s.schoolName}\n\nThank you!")
+                                putExtra(
+                                    Intent.EXTRA_TEXT,
+                                    "NYC Schools\n\nGet more info " +
+                                            "about ${s.schoolName}\n\nThank you!"
+                                )
                             }
-                            IntentUtil.openIntentChooser(navController.context, shareIntent, "Share Via")
+                            IntentUtil.openIntentChooser(
+                                navController.context, shareIntent, "Share Via"
+                            )
                         },
-                        onWebsiteClick = { s.website?.let { IntentUtil.openUrlIntent(navController.context, it) } }
+                        onWebsiteClick = { s.website?.let {
+                            IntentUtil.openUrlIntent(navController.context, it) }
+                        }
                     )
                 }
                 if (s.schoolName != null) {
                     Text(
                         text = "School Name",
-                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                        style = MaterialTheme.typography.titleMedium.copy(
+                            fontWeight = FontWeight.Bold
+                        ),
                         modifier = Modifier.padding(top = 16.dp)
                     )
                     Text(
@@ -133,7 +145,9 @@ fun SchoolDetailScreen(navController: NavController, dbn: String?) {
                 if (s.overviewParagraph != null) {
                     Text(
                         text = "Overview",
-                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                        style = MaterialTheme.typography.titleMedium.copy(
+                            fontWeight = FontWeight.Bold
+                        ),
                         modifier = Modifier.padding(top = 16.dp)
                     )
                     Text(
@@ -145,7 +159,9 @@ fun SchoolDetailScreen(navController: NavController, dbn: String?) {
                 if (s.location != null) {
                     Text(
                         text = "Location",
-                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                        style = MaterialTheme.typography.titleMedium.copy(
+                            fontWeight = FontWeight.Bold
+                        ),
                         modifier = Modifier.padding(top = 16.dp)
                     )
                     Text(
@@ -157,7 +173,9 @@ fun SchoolDetailScreen(navController: NavController, dbn: String?) {
                 if (s.phoneNumber != null) {
                     Text(
                         text = "Phone",
-                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                        style = MaterialTheme.typography.titleMedium.copy(
+                            fontWeight = FontWeight.Bold
+                        ),
                         modifier = Modifier.padding(top = 16.dp)
                     )
                     Text(
@@ -169,7 +187,9 @@ fun SchoolDetailScreen(navController: NavController, dbn: String?) {
                 if (s.schoolEmail != null) {
                     Text(
                         text = "Email",
-                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                        style = MaterialTheme.typography.titleMedium.copy(
+                            fontWeight = FontWeight.Bold
+                        ),
                         modifier = Modifier.padding(top = 16.dp)
                     )
                     Text(
@@ -181,7 +201,9 @@ fun SchoolDetailScreen(navController: NavController, dbn: String?) {
                 if (s.website != null) {
                     Text(
                         text = "Website",
-                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                        style = MaterialTheme.typography.titleMedium.copy(
+                            fontWeight = FontWeight.Bold
+                        ),
                         modifier = Modifier.padding(top = 16.dp)
                     )
                     Text(
@@ -273,7 +295,13 @@ fun PreviewSchoolDetailScreen() {
         dbn = "02M260",
         schoolName = "Clinton School Writers and Artists, M.S. 260",
         boro = "M",
-        overviewParagraph = "Brooklyn School for Music Theatre (BSMT) uses our academic program to accommodate the intellectual, social, and emotional needs of creative high school students. Our vision is to provide a model professional environment where respect is mutual, ideas are shared, and learning is not limited to the classroom. We prepare students for higher education through our rigorous academic program while simultaneously allowing them to develop professional careers in the music and theatre industries.",
+        overviewParagraph = "Brooklyn School for Music Theatre (BSMT) uses our academic " +
+                "program to accommodate the intellectual, social, and emotional needs of " +
+                "creative high school students. Our vision is to provide a model professional" +
+                " environment where respect is mutual, ideas are shared, and learning is not " +
+                "limited to the classroom. We prepare students for higher education through " +
+                "our rigorous academic program while simultaneously allowing them to develop " +
+                "professional careers in the music and theatre industries.",
         location = "2865 West 19th Street, Brooklyn, NY 11224 (40.576976, -73.985413)",
         phoneNumber = "718-542-0740",
         schoolEmail = "sburns@schools.nyc.gov",
@@ -335,13 +363,17 @@ fun PreviewSchoolDetailScreen() {
                     SchoolActionButtonsRow(
                         onFeedbackClick = { /* no-op for preview */ },
                         onSocialClick = { /* no-op for preview */ },
-                        onWebsiteClick = { mockSchool.website?.let { IntentUtil.openUrlIntent(mockNavController.context, it) } }
+                        onWebsiteClick = { mockSchool.website?.let {
+                            IntentUtil.openUrlIntent(mockNavController.context, it) }
+                        }
                     )
                 }
                 if (mockSchool.schoolName != null) {
                     Text(
                         text = "School Name",
-                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                        style = MaterialTheme.typography.titleMedium.copy(
+                            fontWeight = FontWeight.Bold
+                        ),
                         modifier = Modifier.padding(top = 16.dp)
                     )
                     Text(
@@ -353,7 +385,9 @@ fun PreviewSchoolDetailScreen() {
                 if (mockSchool.overviewParagraph != null) {
                     Text(
                         text = "Overview",
-                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                        style = MaterialTheme.typography.titleMedium.copy(
+                            fontWeight = FontWeight.Bold
+                        ),
                         modifier = Modifier.padding(top = 16.dp)
                     )
                     Text(
@@ -365,7 +399,9 @@ fun PreviewSchoolDetailScreen() {
                 if (mockSchool.location != null) {
                     Text(
                         text = "Location",
-                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                        style = MaterialTheme.typography.titleMedium.copy(
+                            fontWeight = FontWeight.Bold
+                        ),
                         modifier = Modifier.padding(top = 16.dp)
                     )
                     Text(
@@ -377,7 +413,9 @@ fun PreviewSchoolDetailScreen() {
                 if (mockSchool.phoneNumber != null) {
                     Text(
                         text = "Phone",
-                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                        style = MaterialTheme.typography.titleMedium.copy(
+                            fontWeight = FontWeight.Bold
+                        ),
                         modifier = Modifier.padding(top = 16.dp)
                     )
                     Text(
@@ -389,7 +427,9 @@ fun PreviewSchoolDetailScreen() {
                 if (mockSchool.schoolEmail != null) {
                     Text(
                         text = "Email",
-                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                        style = MaterialTheme.typography.titleMedium.copy(
+                            fontWeight = FontWeight.Bold
+                        ),
                         modifier = Modifier.padding(top = 16.dp)
                     )
                     Text(
@@ -401,7 +441,9 @@ fun PreviewSchoolDetailScreen() {
                 if (mockSchool.website != null) {
                     Text(
                         text = "Website",
-                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                        style = MaterialTheme.typography.titleMedium.copy(
+                            fontWeight = FontWeight.Bold
+                        ),
                         modifier = Modifier.padding(top = 16.dp)
                     )
                     Text(
