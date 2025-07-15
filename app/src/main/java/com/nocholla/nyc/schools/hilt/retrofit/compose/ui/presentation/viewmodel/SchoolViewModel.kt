@@ -75,7 +75,9 @@ class SchoolViewModel @Inject constructor(
                 val schoolsFlow = schoolsResult.getOrThrow()
                 val schools = schoolsFlow.first() // Get the first emission
                 val filteredSchools = schools.filter { it.dbn == dbn } // Filter the list
-                _uiState.update { it.copy(schools = filteredSchools.ifEmpty { schools }, isLoading = false) }
+                _uiState.update {
+                    it.copy(schools = filteredSchools.ifEmpty { schools }, isLoading = false)
+                }
             } catch (e: Exception) {
                 _uiState.update {
                     it.copy(

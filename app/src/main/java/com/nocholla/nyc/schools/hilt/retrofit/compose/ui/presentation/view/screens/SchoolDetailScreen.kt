@@ -48,6 +48,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import android.content.Intent
 import android.net.Uri
+import androidx.core.net.toUri
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -100,7 +101,7 @@ fun SchoolDetailScreen(navController: NavController, dbn: String?) {
                     SchoolActionButtonsRow(
                         onFeedbackClick = {
                             val intent = Intent(Intent.ACTION_SENDTO).apply {
-                                data = Uri.parse("mailto:${s.schoolEmail}")
+                                data = "mailto:${s.schoolEmail}".toUri()
                                 putExtra(Intent.EXTRA_SUBJECT, "Parent Feedback!")
                                 putExtra(Intent.EXTRA_TEXT, "Hello, NYC City Schools")
                             }
