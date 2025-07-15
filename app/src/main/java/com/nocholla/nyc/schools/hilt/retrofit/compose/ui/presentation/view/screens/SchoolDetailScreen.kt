@@ -47,7 +47,6 @@ import com.nocholla.nyc.schools.hilt.retrofit.compose.ui.utils.IntentUtil
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import android.content.Intent
-import android.net.Uri
 import androidx.core.net.toUri
 
 @OptIn(ExperimentalMaterial3Api::class)

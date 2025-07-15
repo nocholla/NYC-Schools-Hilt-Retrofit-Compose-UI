@@ -193,17 +193,26 @@ fun SchoolItemM3Preview() {
                     dbn = "01M450",
                     schoolName = "Brooklyn School for Music Theatre",
                     boro = "M",
-                    overviewParagraph = "Brooklyn School for Music Theatre (BSMT) uses our academic program to accommodate the intellectual, social, and emotional needs of creative high school students. Our vision is to provide a model professional environment where respect is mutual, ideas are shared, and learning is not limited to the classroom. We prepare students for higher education through our rigorous academic program while simultaneously allowing them to develop professional careers in the music and theatre industries.",
-                    school10thSeats = null, academicOpportunities1 = null, academicOpportunities2 = null,
+                    overviewParagraph = "Brooklyn School for Music Theatre (BSMT) uses our " +
+                            "academic program to accommodate the intellectual, social, and " +
+                            "emotional needs of creative high school students. Our vision is " +
+                            "to provide a model professional environment where respect is " +
+                            "mutual, ideas are shared, and learning is not limited to the " +
+                            "classroom. We prepare students for higher education through our " +
+                            "rigorous academic program while simultaneously allowing them to " +
+                            "develop professional careers in the music and theatre industries.",
+                    school10thSeats = null, academicOpportunities1 = null,
+                    academicOpportunities2 = null,
                     ellPrograms = null, neighborhood = null, buildingCode = null, location = null,
                     phoneNumber = "212-555-1234", faxNumber = null, schoolEmail = "info@bsmt.edu",
-                    website = null, subway = null, bus = null, grades2018 = null, finalGrades = null,
-                    totalStudents = null, extracurricularActivities = null, schoolSports = null,
-                    attendanceRate = null, pctStuEnoughVariety = null, pctStuSafe = null,
-                    schoolAccessibilityDescription = null, directions1 = null, requirement1 = null,
-                    requirement2 = null, requirement3 = null, requirement4 = null, requirement5 = null,
-                    offerRate1 = null, program1 = null, code1 = null, interest1 = null, method1 = null,
-                    seats9ge1 = null, grade9gefilledflag1 = null, grade9geapplicants1 = null,
+                    website = null, subway = null, bus = null, grades2018 = null,
+                    finalGrades = null, totalStudents = null, extracurricularActivities = null,
+                    schoolSports = null, attendanceRate = null, pctStuEnoughVariety = null,
+                    pctStuSafe = null, schoolAccessibilityDescription = null, directions1 = null,
+                    requirement1 = null, requirement2 = null, requirement3 = null,
+                    requirement4 = null, requirement5 = null, offerRate1 = null, program1 = null,
+                    code1 = null, interest1 = null, method1 = null, seats9ge1 = null,
+                    grade9gefilledflag1 = null, grade9geapplicants1 = null,
                     seats9swd1 = null, grade9swdfilledflag1 = null, grade9swdapplicants1 = null,
                     seats101 = null, admissionspriority11 = null, admissionspriority21 = null,
                     admissionspriority31 = null, grade9geapplicantsperseat1 = null,

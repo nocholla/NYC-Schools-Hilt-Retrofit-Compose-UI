@@ -39,12 +39,16 @@ fun SchoolListScreen(navController: NavController) {
             )
         )
         when {
-            uiState.isLoading -> CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+            uiState.isLoading -> CircularProgressIndicator(
+                modifier = Modifier.align(Alignment.Center)
+            )
             uiState.error != null -> Text(
                 text = "Error: ${uiState.error}",
                 modifier = Modifier.align(Alignment.Center)
             )
-            else -> LazyColumn(modifier = Modifier.padding(top = 64.dp, start = 8.dp, end = 8.dp)) {
+            else -> LazyColumn(
+                modifier = Modifier.padding(top = 64.dp, start = 8.dp, end = 8.dp)
+            ) {
                 items(uiState.schools) { school ->
                     SchoolItem(school = school, navController = navController)
                 }
@@ -73,23 +77,29 @@ fun SchoolListScreenPreview() {
                         dbn = "01M450",
                         schoolName = "Brooklyn School for Music Theatre",
                         boro = "M",
-                        overviewParagraph = "A school for arts and theater, specializing in music and theatre.",
-                        school10thSeats = null, academicOpportunities1 = null, academicOpportunities2 = null,
-                        ellPrograms = null, neighborhood = null, buildingCode = null, location = "123 Main St, Brooklyn, NY",
-                        phoneNumber = "212-555-1234", faxNumber = null, schoolEmail = "info@bsmt.edu",
-                        website = "https://www.bsmt.edu", subway = null, bus = null, grades2018 = null, finalGrades = null,
-                        totalStudents = null, extracurricularActivities = null, schoolSports = null,
-                        attendanceRate = null, pctStuEnoughVariety = null, pctStuSafe = null,
-                        schoolAccessibilityDescription = null, directions1 = null, requirement1 = null,
-                        requirement2 = null, requirement3 = null, requirement4 = null, requirement5 = null,
-                        offerRate1 = null, program1 = null, code1 = null, interest1 = null, method1 = null,
-                        seats9ge1 = null, grade9gefilledflag1 = null, grade9geapplicants1 = null,
-                        seats9swd1 = null, grade9swdfilledflag1 = null, grade9swdapplicants1 = null,
-                        seats101 = null, admissionspriority11 = null, admissionspriority21 = null,
-                        admissionspriority31 = null, grade9geapplicantsperseat1 = null,
-                        grade9swdapplicantsperseat1 = null, primaryAddressLine1 = null, city = null,
-                        zip = null, stateCode = null, latitude = null, longitude = null,
-                        communityBoard = null, councilDistrict = null, censusTract = null, bin = null,
+                        overviewParagraph = "A school for arts and theater, " +
+                                "specializing in music and theatre.",
+                        school10thSeats = null, academicOpportunities1 = null,
+                        academicOpportunities2 = null,
+                        ellPrograms = null, neighborhood = null, buildingCode = null,
+                        location = "123 Main St, Brooklyn, NY", phoneNumber = "212-555-1234",
+                        faxNumber = null, schoolEmail = "info@bsmt.edu",
+                        website = "https://www.bsmt.edu", subway = null, bus = null,
+                        grades2018 = null, finalGrades = null,
+                        totalStudents = null, extracurricularActivities = null,
+                        schoolSports = null, attendanceRate = null, pctStuEnoughVariety = null,
+                        pctStuSafe = null, schoolAccessibilityDescription = null,
+                        directions1 = null, requirement1 = null, requirement2 = null,
+                        requirement3 = null, requirement4 = null, requirement5 = null,
+                        offerRate1 = null, program1 = null, code1 = null, interest1 = null,
+                        method1 = null, seats9ge1 = null, grade9gefilledflag1 = null,
+                        grade9geapplicants1 = null, seats9swd1 = null, grade9swdfilledflag1 = null,
+                        grade9swdapplicants1 = null, seats101 = null, admissionspriority11 = null,
+                        admissionspriority21 = null, admissionspriority31 = null,
+                        grade9geapplicantsperseat1 = null, grade9swdapplicantsperseat1 = null,
+                        primaryAddressLine1 = null, city = null, zip = null, stateCode = null,
+                        latitude = null, longitude = null, communityBoard = null,
+                        councilDistrict = null, censusTract = null, bin = null,
                         bbl = null, nta = null, borough = null
                     )
                 )) { school ->

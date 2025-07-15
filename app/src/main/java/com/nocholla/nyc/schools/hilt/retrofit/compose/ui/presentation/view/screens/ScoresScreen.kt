@@ -46,7 +46,9 @@ fun ScoresScreen(navController: NavController, dbn: String?) {
             )
         )
         when {
-            uiState.isLoading -> CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+            uiState.isLoading -> CircularProgressIndicator(
+                modifier = Modifier.align(Alignment.Center)
+            )
             uiState.error != null -> Text(
                 text = "Error: ${uiState.error}",
                 modifier = Modifier.align(Alignment.Center)
