@@ -86,6 +86,13 @@ fun SchoolDetailScreen(navController: NavController, dbn: String?) {
                 .padding(horizontal = 16.dp, vertical = 8.dp)
         ) {
             school?.let { s ->
+                if (s.schoolEmail != null || s.phoneNumber != null) {
+                    SchoolActionButtonsRow(
+                        onFeedbackClick = { /* Handle feedback click */ },
+                        onSocialClick = { /* Handle social click */ },
+                        onWebsiteClick = { s.website?.let { IntentUtil.openUrlIntent(navController.context, it) } }
+                    )
+                }
                 if (s.schoolName != null) {
                     Text(
                         text = "School Name",
@@ -144,17 +151,6 @@ fun SchoolDetailScreen(navController: NavController, dbn: String?) {
                         text = s.schoolEmail,
                         style = MaterialTheme.typography.bodyLarge,
                         modifier = Modifier.padding(top = 4.dp)
-                    )
-                    SchoolActionButtonsRow(
-                        onFeedbackClick = { /* Handle feedback click */ },
-                        onSocialClick = { /* Handle social click */ },
-                        onWebsiteClick = { s.website?.let { IntentUtil.openUrlIntent(navController.context, it) } }
-                    )
-                } else if (s.phoneNumber != null) {
-                    SchoolActionButtonsRow(
-                        onFeedbackClick = { /* Handle feedback click */ },
-                        onSocialClick = { /* Handle social click */ },
-                        onWebsiteClick = { s.website?.let { IntentUtil.openUrlIntent(navController.context, it) } }
                     )
                 }
                 Spacer(modifier = Modifier.height(64.dp))
@@ -298,6 +294,13 @@ fun PreviewSchoolDetailScreen() {
                     .verticalScroll(rememberScrollState())
                     .padding(horizontal = 16.dp, vertical = 8.dp)
             ) {
+                if (mockSchool.schoolEmail != null || mockSchool.phoneNumber != null) {
+                    SchoolActionButtonsRow(
+                        onFeedbackClick = { /* no-op for preview */ },
+                        onSocialClick = { /* no-op for preview */ },
+                        onWebsiteClick = { mockSchool.website?.let { IntentUtil.openUrlIntent(mockNavController.context, it) } }
+                    )
+                }
                 if (mockSchool.schoolName != null) {
                     Text(
                         text = "School Name",
@@ -356,17 +359,6 @@ fun PreviewSchoolDetailScreen() {
                         text = mockSchool.schoolEmail,
                         style = MaterialTheme.typography.bodyLarge,
                         modifier = Modifier.padding(top = 4.dp)
-                    )
-                    SchoolActionButtonsRow(
-                        onFeedbackClick = { /* no-op for preview */ },
-                        onSocialClick = { /* no-op for preview */ },
-                        onWebsiteClick = { mockSchool.website?.let { IntentUtil.openUrlIntent(mockNavController.context, it) } }
-                    )
-                } else if (mockSchool.phoneNumber != null) {
-                    SchoolActionButtonsRow(
-                        onFeedbackClick = { /* no-op for preview */ },
-                        onSocialClick = { /* no-op for preview */ },
-                        onWebsiteClick = { mockSchool.website?.let { IntentUtil.openUrlIntent(mockNavController.context, it) } }
                     )
                 }
                 Spacer(modifier = Modifier.height(64.dp))
