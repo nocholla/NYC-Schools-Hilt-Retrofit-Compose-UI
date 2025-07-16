@@ -1,8 +1,13 @@
 package com.nocholla.nyc.schools.hilt.retrofit.compose.ui.di
 
+import android.app.Application
+import androidx.room.Room
 import com.google.gson.Gson
 import com.nocholla.nyc.schools.hilt.retrofit.compose.ui.data.api.OkHttpClientFactory
 import com.nocholla.nyc.schools.hilt.retrofit.compose.ui.data.api.SchoolsApiService
+import com.nocholla.nyc.schools.hilt.retrofit.compose.ui.data.local.dao.SchoolDao
+import com.nocholla.nyc.schools.hilt.retrofit.compose.ui.data.local.dao.ScoreDao
+import com.nocholla.nyc.schools.hilt.retrofit.compose.ui.data.local.database.SchoolDatabase
 import com.nocholla.nyc.schools.hilt.retrofit.compose.ui.data.repository.SchoolRepositoryImpl
 import com.nocholla.nyc.schools.hilt.retrofit.compose.ui.domain.repository.SchoolRepository
 import com.nocholla.nyc.schools.hilt.retrofit.compose.ui.domain.usecase.GetSchoolsUseCase
@@ -50,8 +55,34 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideSchoolRepository(schoolsApiService: SchoolsApiService): SchoolRepository {
-        return SchoolRepositoryImpl(schoolsApiService)
+    fun provideSchoolDatabase(app: Application): SchoolDatabase {
+        return Room.databaseBuilder(
+            app,
+            SchoolDatabase::class.java,
+            "school_database"
+        ).build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideSchoolDao(database: SchoolDatabase): SchoolDao {
+        return database.schoolDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideScoreDao(database: SchoolDatabase): ScoreDao {
+        return database.scoreDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideSchoolRepository(
+        schoolsApiService: SchoolsApiService,
+        schoolDao: SchoolDao,
+        scoreDao: ScoreDao
+    ): SchoolRepository {
+        return SchoolRepositoryImpl(schoolsApiService, schoolDao, scoreDao)
     }
 
     @Provides
