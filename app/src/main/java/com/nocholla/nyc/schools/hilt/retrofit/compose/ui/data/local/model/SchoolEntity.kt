@@ -1,7 +1,8 @@
-package com.nocholla.nyc.schools.hilt.retrofit.compose.ui.data.model
+package com.nocholla.nyc.schools.hilt.retrofit.compose.ui.data.local.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.nocholla.nyc.schools.hilt.retrofit.compose.ui.domain.model.School
 
 @Entity(tableName = "schools")
 data class SchoolEntity(
@@ -68,7 +69,7 @@ data class SchoolEntity(
     val nta: String?,
     val borough: String?
 ) {
-    fun toDomain() = com.nocholla.nyc.schools.hilt.retrofit.compose.ui.domain.model.School(
+    fun toDomain() = School(
         dbn = dbn,
         schoolName = schoolName,
         boro = boro,

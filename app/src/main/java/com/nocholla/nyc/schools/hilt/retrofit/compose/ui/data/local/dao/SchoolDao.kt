@@ -1,10 +1,10 @@
-package com.nocholla.nyc.schools.hilt.retrofit.compose.ui.data.dao
+package com.nocholla.nyc.schools.hilt.retrofit.compose.ui.data.local.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.nocholla.nyc.schools.hilt.retrofit.compose.ui.data.model.SchoolEntity
+import com.nocholla.nyc.schools.hilt.retrofit.compose.ui.data.local.model.SchoolEntity
 
 @Dao
 interface SchoolDao {

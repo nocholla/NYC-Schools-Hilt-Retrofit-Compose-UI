@@ -1,7 +1,8 @@
-package com.nocholla.nyc.schools.hilt.retrofit.compose.ui.data.model
+package com.nocholla.nyc.schools.hilt.retrofit.compose.ui.data.local.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.nocholla.nyc.schools.hilt.retrofit.compose.ui.domain.model.Score
 
 @Entity(tableName = "scores")
 data class ScoreEntity(
@@ -12,7 +13,7 @@ data class ScoreEntity(
     val satMathAvgScore: String?,
     val satWritingAvgScore: String?
 ) {
-    fun toDomain() = com.nocholla.nyc.schools.hilt.retrofit.compose.ui.domain.model.Score(
+    fun toDomain() = Score(
         dbn = dbn,
         schoolName = schoolName,
         numOfSatTestTakers = numOfSatTestTakers,
